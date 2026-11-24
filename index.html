@@ -1,0 +1,885 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>qdzproject.store</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:#0b1022;
+  color:#f3f5ff;
+  font-family:Arial,sans-serif;
+  padding-bottom:100px
+}
+
+.header{
+  min-height:85px;
+  background:#111a30;
+  border:2px solid #253149;
+  border-radius:25px;
+  display:flex;
+  align-items:center;
+  padding:8px;
+  gap:7px;
+  position:sticky;
+  top:0;
+  z-index:10
+}
+
+.logo{
+  width:48px;height:48px;
+  background:#080b16;
+  border-radius:14px;
+  display:grid;place-items:center;
+  color:#8957ff;font-size:38px;font-weight:900
+}
+
+.brand{
+  flex:1;
+  font-size:clamp(13px,4vw,24px);
+  font-weight:900;
+  background:linear-gradient(90deg,#e2f4ff,#55caff);
+  color:transparent;
+  background-clip:text;
+  white-space:nowrap
+}
+
+.balance{
+  padding:10px;
+  border-radius:30px;
+  color:#08bd91;
+  background:#0b302d;
+  border:2px solid #08765f;
+  font-weight:bold;font-size:12px
+}
+
+.logout{
+  padding:10px;
+  border-radius:30px;
+  background:#30202d;
+  border:2px solid #79303b;
+  color:#ff5555;font-size:12px
+}
+
+.container{
+  width:92%;
+  margin:24px auto
+}
+
+.panel{
+  background:#101a30;
+  border:2px solid #243148;
+  border-radius:27px;
+  padding:22px 16px;
+  margin-bottom:25px
+}
+
+.heading{
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:27px
+}
+
+.label{
+  display:block;
+  color:#92a1b8;
+  font-size:17px;
+  font-weight:bold;
+  margin:22px 0 11px
+}
+
+.input,.select{
+  width:100%;
+  height:60px;
+  background:#10192c;
+  border:2px solid #283449;
+  border-radius:25px;
+  color:white;
+  padding:13px;
+  font-size:17px;
+  outline:none
+}
+
+.input::placeholder{color:#687991}
+
+.total{
+  background:#090f1e;
+  border:2px solid #1e293a;
+  border-radius:25px;
+  margin-top:26px;
+  padding:20px 13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px
+}
+
+.total-label{
+  color:#92a1b8;
+  font-size:14px;
+  font-weight:bold
+}
+
+.price{
+  color:#06b6d4;
+  font-size:23px;
+  font-weight:900;
+  white-space:nowrap
+}
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:25px;
+  padding:16px 10px;
+  margin-top:25px;
+  background:linear-gradient(110deg,#6658f4,#8955ef);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.hidden{display:none!important}
+
+/* DAY SELECT */
+
+.day-buttons{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:12px
+}
+
+.day-btn{
+  background:#182338;
+  border:2px solid #29364d;
+  border-radius:15px;
+  color:#92a1b8;
+  padding:13px 3px;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.day-btn.active{
+  background:#292f68;
+  color:white;
+  border-color:#655bff
+}
+
+.like-estimate{
+  color:#08bd91;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:16px
+}
+
+/* CONFIRM */
+
+.confirm{
+  border:3px solid #08b88b;
+  border-radius:27px;
+  background:#0e2231;
+  padding:19px 14px
+}
+
+.confirm-title{
+  text-align:center;
+  color:#08b88b;
+  font-size:20px;
+  font-weight:900;
+  margin:15px 0 25px
+}
+
+.info{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:16px 0;
+  border-bottom:1px dashed #29374a
+}
+
+.info:last-child{border-bottom:0}
+
+.info span:first-child{
+  color:#92a1b8;font-size:15px
+}
+
+.info span:last-child{
+  font-size:15px;
+  font-weight:bold;
+  text-align:right;
+  overflow-wrap:anywhere
+}
+
+.cyan{color:#06b6d4}
+.green{color:#08b88b}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:23px
+}
+
+.actions button{
+  flex:1;
+  border-radius:22px;
+  padding:14px 5px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.confirm-buy{
+  color:white;
+  border:none;
+  background:linear-gradient(110deg,#08b887,#069b77)
+}
+
+.cancel{
+  color:white;
+  border:2px solid #273647;
+  background:transparent
+}
+
+/* RESULT */
+
+.success{
+  border:3px solid #08b88b;
+  border-radius:27px;
+  padding:18px
+}
+
+.success-title{
+  text-align:center;
+  color:#08b88b;
+  font-size:22px;
+  font-weight:900;
+  margin:20px 0
+}
+
+.notice{
+  padding:15px;
+  margin-bottom:20px;
+  background:#102b39;
+  color:#08b88b;
+  border-left:5px solid #08b88b;
+  border-radius:17px;
+  font-size:14px
+}
+
+/* SYSTEM LOG */
+
+.terminal{
+  background:#050a13;
+  border:1px solid #26354b;
+  border-radius:17px;
+  padding:13px
+}
+
+.terminal-head{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border-bottom:1px solid #243147;
+  padding-bottom:11px;
+  margin-bottom:11px
+}
+
+.dot{
+  width:8px;height:8px;
+  border-radius:50%
+}
+
+.red{background:#ff5b5b}
+.yellow{background:#ffc44d}
+.green-dot{background:#26d68a}
+
+.terminal-title{
+  margin-left:7px;
+  color:#8192aa;
+  font-size:11px
+}
+
+.terminal-logs{
+  height:150px;
+  overflow-y:auto;
+  font-size:11px;
+  line-height:1.8;
+  color:#20d6a0;
+  overflow-wrap:anywhere
+}
+
+.log-line{animation:fade .2s ease}
+.log-info{color:#51c8ff}
+.log-success{color:#23d69b}
+.log-warning{color:#f0c66c}
+
+.progress-track{
+  width:100%;
+  height:6px;
+  background:#192538;
+  border-radius:10px;
+  margin-top:11px;
+  overflow:hidden
+}
+
+.progress-bar{
+  width:0;height:100%;
+  background:linear-gradient(90deg,#6555ef,#09d4a0);
+  transition:width .3s
+}
+
+#progressText{
+  text-align:right;
+  color:#8ba0ba;
+  font-size:11px;
+  margin-top:5px
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(3px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* MENU */
+
+.nav{
+  position:fixed;
+  bottom:9px;
+  left:3%;
+  width:94%;
+  background:#111a31;
+  border:2px solid #293754;
+  border-radius:40px;
+  display:flex;
+  justify-content:space-around;
+  padding:6px 2px;
+  z-index:20
+}
+
+.nav-item{
+  flex:1;
+  text-align:center;
+  color:#91a0b8;
+  font-size:10px;
+  padding:7px 1px;
+  border-radius:27px;
+  cursor:pointer
+}
+
+.nav-item .icon{
+  display:block;
+  font-size:21px;
+  margin-bottom:4px
+}
+
+.nav-item.active{
+  color:white;
+  background:#234c86;
+  border:1px solid #486ba8
+}
+
+button:disabled{opacity:.6}
+
+@media(max-width:380px){
+  .header{gap:4px}
+  .logo{width:38px;height:38px;font-size:30px}
+  .balance,.logout{padding:7px;font-size:10px}
+  .heading{font-size:21px}
+  .price{font-size:20px}
+  .btn{font-size:15px;padding:15px}
+  .day-btn{font-size:10px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">Q</div>
+  <div class="brand">qdzproject.store</div>
+  <div style="font-size:22px">♧</div>
+  <div class="balance" id="balance">100000đ</div>
+  <button class="logout" onclick="alert('Đăng xuất')">⇥ Thoát</button>
+</header>
+
+<main class="container">
+
+<!-- LOG ẨN, CHỈ HIỆN KHI BẤM -->
+<section class="panel hidden" id="terminalPanel">
+  <div class="heading">⚡ SYSTEM PROCESS</div>
+
+  <div class="terminal">
+    <div class="terminal-head">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green-dot"></span>
+      <span class="terminal-title">SYSTEM STATUS</span>
+    </div>
+
+    <div class="terminal-logs" id="terminalLogs"></div>
+
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="progressText">0%</div>
+  </div>
+</section>
+
+<!-- ĐẶT MUA -->
+<section class="panel" id="purchase">
+
+  <div class="heading">🛒 ĐẶT MUA DỊCH VỤ</div>
+
+  <label class="label">LOẠI DỊCH VỤ</label>
+
+  <select class="select" id="service">
+    <option>Auto Like Chạy Hằng Ngày</option>
+  </select>
+
+  <label class="label">UID GARENA MỤC TIÊU</label>
+
+  <input
+    class="input"
+    id="uid"
+    inputmode="numeric"
+    placeholder="Nhập UID Garena cần mua..."
+  >
+
+  <label class="label">SỐ NGÀY MUỐN MUA (1 NGÀY = 220 LIKE)</label>
+
+  <input
+    class="input"
+    id="days"
+    type="number"
+    min="1"
+    max="50"
+    value="5"
+    oninput="updatePackage()"
+  >
+
+  <div class="day-buttons">
+    <button class="day-btn" onclick="selectDays(1)">1 ngày</button>
+    <button class="day-btn active" onclick="selectDays(5)">5 ngày</button>
+    <button class="day-btn" onclick="selectDays(10)">10 ngày</button>
+    <button class="day-btn" onclick="selectDays(25)">25 ngày</button>
+    <button class="day-btn" onclick="selectDays(50)">50 ngày</button>
+  </div>
+
+  <div class="like-estimate" id="likeEstimate">
+    Dự tính nhận: 1.100 Likes (220 like/ngày)
+  </div>
+
+  <div class="total">
+    <span class="total-label">TỔNG THANH TOÁN:</span>
+    <span class="price" id="totalPrice">20.000 VND</span>
+  </div>
+
+  <button class="btn" onclick="checkUID()">
+    ⌕ KIỂM TRA NHÂN VẬT
+  </button>
+</section>
+
+<!-- XÁC NHẬN -->
+<section class="panel hidden" id="confirm">
+
+  <div class="heading">🛒 ĐẶT MUA DỊCH VỤ</div>
+
+  <div class="confirm">
+    <div class="confirm-title">XÁC NHẬN THÔNG TIN MUA HÀNG</div>
+
+    <div class="info">
+      <span>UID Garena:</span>
+      <span id="confirmUID"></span>
+    </div>
+
+    <div class="info">
+      <span>Loại dịch vụ:</span>
+      <span>Auto Like Chạy Hằng Ngày</span>
+    </div>
+
+    <div class="info">
+      <span>Số ngày:</span>
+      <span id="confirmDays"></span>
+    </div>
+
+    <div class="info">
+      <span>Like dự tính:</span>
+      <span class="cyan" id="confirmLikes"></span>
+    </div>
+
+    <div class="info">
+      <span>Tổng thanh toán:</span>
+      <span class="cyan" id="confirmPrice"></span>
+    </div>
+
+    <div class="actions">
+      <button class="confirm-buy" onclick="buy()">✓ XÁC NHẬN MUA</button>
+      <button class="cancel" onclick="back()">✕ HỦY / ĐỔI UID</button>
+    </div>
+  </div>
+</section>
+
+<!-- KẾT QUẢ -->
+<section class="panel hidden" id="done">
+
+  <div class="heading">🛒 ĐẶT MUA DỊCH VỤ</div>
+
+  <div class="notice" id="notice"></div>
+
+  <div class="success">
+
+    <div class="success-title">
+      BUFF THÀNH CÔNG - TẠO ĐƠN MỚI
+    </div>
+
+    <div class="info">
+      <span>Loại dịch vụ:</span>
+      <span>Auto Like Chạy Hằng Ngày</span>
+    </div>
+
+    <div class="info">
+      <span>UID Garena:</span>
+      <span id="doneUID"></span>
+    </div>
+
+    <div class="info">
+      <span>Số ngày:</span>
+      <span id="doneDays"></span>
+    </div>
+
+    <div class="info">
+      <span>Số lượng like:</span>
+      <span class="cyan" id="doneLikes"></span>
+    </div>
+
+    <div class="info">
+      <span>Tổng thanh toán:</span>
+      <span class="cyan" id="donePrice"></span>
+    </div>
+
+    <button class="btn" onclick="newOrder()">TẠO ĐƠN MỚI</button>
+  </div>
+</section>
+
+</main>
+
+<!-- MENU -->
+<nav class="nav">
+
+  <div class="nav-item active" onclick="nav(this)">
+    <span class="icon">⌂</span>Mua Like
+  </div>
+
+  <div class="nav-item" onclick="nav(this)">
+    <span class="icon">▤</span>Nạp tiền
+  </div>
+
+  <div class="nav-item" onclick="nav(this)">
+    <span class="icon">⬡</span>Đơn hàng
+  </div>
+
+  <div class="nav-item" onclick="nav(this)">
+    <span class="icon">&lt;/&gt;</span>API
+  </div>
+
+  <div class="nav-item" onclick="nav(this)">
+    <span class="icon">▢</span>Hỗ trợ
+  </div>
+
+  <div class="nav-item" onclick="nav(this)">
+    <span class="icon">⚙</span>Trợ lý AI
+  </div>
+
+</nav>
+
+<script>
+let balance = 100000;
+let uid = "";
+let selectedDays = 5;
+let busy = false;
+
+// Giá các gói
+const packagePrices = {
+  1: 4000,
+  5: 20000,
+  10: 40000,
+  25: 80000,
+  50: 100000
+};
+
+function getPrice(days){
+  if(packagePrices[days] !== undefined){
+    return packagePrices[days];
+  }
+
+  // Ngày tự nhập không thuộc gói mặc định
+  return days * 4000;
+}
+
+function formatMoney(value){
+  return value.toLocaleString("vi-VN") + " VND";
+}
+
+function updateBalance(){
+  document.getElementById("balance").textContent =
+    balance.toLocaleString("vi-VN") + "đ";
+}
+
+// Chọn nhanh số ngày
+function selectDays(days){
+  selectedDays = days;
+  document.getElementById("days").value = days;
+
+  document.querySelectorAll(".day-btn").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  const buttons = document.querySelectorAll(".day-btn");
+  const map = {1:0,5:1,10:2,25:3,50:4};
+
+  buttons[map[days]].classList.add("active");
+
+  updatePackage();
+}
+
+// Cập nhật giá và like
+function updatePackage(){
+  const input = document.getElementById("days");
+  let days = parseInt(input.value) || 0;
+
+  if(days < 1) days = 1;
+  if(days > 50) days = 50;
+
+  selectedDays = days;
+
+  const price = getPrice(days);
+  const likes = days * 220;
+
+  document.getElementById("totalPrice").textContent =
+    formatMoney(price);
+
+  document.getElementById("likeEstimate").textContent =
+    "Dự tính nhận: " +
+    likes.toLocaleString("vi-VN") +
+    " Likes (" + days + " ngày × 220 like/ngày)";
+
+  document.querySelectorAll(".day-btn").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  const map = {1:0,5:1,10:2,25:3,50:4};
+
+  if(map[days] !== undefined){
+    document.querySelectorAll(".day-btn")[map[days]]
+      .classList.add("active");
+  }
+}
+
+function page(id){
+  ["purchase","confirm","done"].forEach(x=>{
+    document.getElementById(x).classList.add("hidden");
+  });
+
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+// Giờ thực trên thiết bị
+function realTime(){
+  return new Date().toLocaleTimeString("vi-VN",{
+    hour12:false
+  });
+}
+
+// Thêm log
+function addLog(message,type="log-info"){
+  const logs = document.getElementById("terminalLogs");
+  const line = document.createElement("div");
+
+  line.className = "log-line " + type;
+  line.textContent = "[" + realTime() + "] " + message;
+
+  logs.appendChild(line);
+  logs.scrollTop = logs.scrollHeight;
+}
+
+// Chạy tiến trình, log chỉ hiện khi bấm
+async function runProcess(title,steps){
+  if(busy) return false;
+
+  busy = true;
+
+  const terminal = document.getElementById("terminalPanel");
+  const logs = document.getElementById("terminalLogs");
+  const bar = document.getElementById("progressBar");
+  const percent = document.getElementById("progressText");
+
+  terminal.classList.remove("hidden");
+  logs.innerHTML = "";
+  bar.style.width = "0%";
+  percent.textContent = "0%";
+
+  document.querySelectorAll("button").forEach(b=>{
+    b.disabled = true;
+  });
+
+  addLog("Khởi tạo tiến trình...", "log-info");
+  await sleep(500);
+
+  addLog(title, "log-info");
+
+  for(let i=0;i<steps.length;i++){
+    await sleep(1000);
+
+    addLog(steps[i], "log-success");
+
+    const p = Math.round((i+1)/steps.length*100);
+    bar.style.width = p + "%";
+    percent.textContent = p + "%";
+  }
+
+  addLog("Hoàn tất tiến trình.", "log-warning");
+
+  document.querySelectorAll("button").forEach(b=>{
+    b.disabled = false;
+  });
+
+  busy = false;
+  return true;
+}
+
+// Kiểm tra UID
+async function checkUID(){
+  if(busy) return;
+
+  const value = document.getElementById("uid").value.trim();
+  const days = parseInt(document.getElementById("days").value);
+  const price = getPrice(days);
+
+  if(!value){
+    alert("Vui lòng nhập UID!");
+    return;
+  }
+
+  if(!/^\d+$/.test(value)){
+    alert("UID chỉ được nhập số!");
+    return;
+  }
+
+  if(!Number.isInteger(days) || days < 1 || days > 50){
+    alert("Số ngày phải từ 1 đến 50!");
+    return;
+  }
+
+  if(balance < price){
+    alert("Số dư không đủ!");
+    return;
+  }
+
+  uid = value;
+  selectedDays = days;
+
+  const finished = await runProcess("ĐANG KIỂM TRA UID",[
+    "Đang tiếp nhận UID...",
+    "Đang xác thực định dạng UID...",
+    "Đang kiểm tra dữ liệu đầu vào...",
+    "Đang hoàn tất kiểm tra..."
+  ]);
+
+  if(!finished) return;
+
+  document.getElementById("confirmUID").textContent = uid;
+  document.getElementById("confirmDays").textContent = days + " ngày";
+  document.getElementById("confirmLikes").textContent =
+    (days*220).toLocaleString("vi-VN") + " Likes";
+  document.getElementById("confirmPrice").textContent =
+    formatMoney(price);
+
+  page("confirm");
+}
+
+// Quay lại
+function back(){
+  page("purchase");
+}
+
+// Xác nhận đơn hàng
+async function buy(){
+  if(busy) return;
+
+  const price = getPrice(selectedDays);
+
+  if(balance < price){
+    alert("Số dư không đủ!");
+    return;
+  }
+
+  const finished = await runProcess("ĐANG XỬ LÝ ĐƠN HÀNG",[
+    "Đang tiếp nhận yêu cầu...",
+    "Đang xác nhận UID...",
+    "Đang kiểm tra gói dịch vụ...",
+    "Đang cập nhật trạng thái...",
+    "Đang hoàn tất..."
+  ]);
+
+  if(!finished) return;
+
+  balance -= price;
+  updateBalance();
+
+  const likes = selectedDays * 220;
+
+  document.getElementById("doneUID").textContent = uid;
+  document.getElementById("doneDays").textContent =
+    selectedDays + " ngày";
+  document.getElementById("doneLikes").textContent =
+    likes.toLocaleString("vi-VN") + " Likes";
+  document.getElementById("donePrice").textContent =
+    formatMoney(price);
+
+  document.getElementById("notice").textContent =
+    "Đơn hàng đã được ghi nhận trên giao diện. " +
+    "Không có lượt like thật được gửi.";
+
+  page("done");
+}
+
+// Đơn mới
+function newOrder(){
+  document.getElementById("uid").value = "";
+  document.getElementById("days").value = 5;
+
+  uid = "";
+  selectedDays = 5;
+
+  updatePackage();
+  page("purchase");
+}
+
+// Menu
+function nav(el){
+  document.querySelectorAll(".nav-item").forEach(x=>{
+    x.classList.remove("active");
+  });
+
+  el.classList.add("active");
+}
+
+updateBalance();
+updatePackage();
+</script>
+
+</body>
+</html>
